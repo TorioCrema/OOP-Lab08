@@ -1,5 +1,9 @@
 package it.unibo.oop.lab.mvcio;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintStream;
+
 /**
  * 
  */
@@ -27,5 +31,45 @@ public class Controller {
      * System.getProperty("file.separator"). The combined use of those methods leads
      * to a software that runs correctly on every platform.
      */
-
+    private static final String SEPARATOR = System.getProperty("file.separator");
+    private static final String HOMEDIR = System.getProperty("user.home");
+    private File file;
+    private String filePath;
+    private PrintStream printStream;
+    /**
+     * @throws IOException
+     */
+    public Controller() throws IOException {
+        this.file = new File(HOMEDIR + SEPARATOR + "output.txt");
+        this.file.createNewFile();
+        this.filePath = this.file.getCanonicalPath();
+        this.printStream = new PrintStream(this.filePath);
+    }
+    /**
+     * @param file File to be set as current
+     * @throws IOException 
+     */
+    public void setCurrentFile(final File file) throws IOException {
+        this.file = file;
+        this.filePath = this.file.getCanonicalPath();
+        this.printStream = new PrintStream(this.filePath);
+    }
+    /**
+     * @return current file
+     */
+    public File getCurrentFile() {
+        return this.file;
+    }
+    /**
+     * @return path of current file in String form
+     */
+    public String getCurrentFilePath() {
+        return this.filePath;
+    }
+    /**
+     * @param s String to be written in current file
+     */
+    public void writeString(final String s) {
+        this.printStream.print(s);
+    }
 }
