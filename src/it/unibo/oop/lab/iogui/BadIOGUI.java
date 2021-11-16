@@ -1,14 +1,18 @@
 package it.unibo.oop.lab.iogui;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Random;
+import java.nio.charset.StandardCharsets;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -36,9 +40,14 @@ public class BadIOGUI {
      */
     public BadIOGUI() {
         final JPanel canvas = new JPanel();
+        final JPanel newPanel = new JPanel();
         canvas.setLayout(new BorderLayout());
+        newPanel.setLayout(new BoxLayout(newPanel, BoxLayout.X_AXIS));
         final JButton write = new JButton("Write on file");
-        canvas.add(write, BorderLayout.CENTER);
+        final JButton read = new JButton("Read");
+        canvas.add(newPanel, BorderLayout.CENTER);
+        newPanel.add(write);
+        newPanel.add(read);
         frame.setContentPane(canvas);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         /*
@@ -62,6 +71,18 @@ public class BadIOGUI {
                 }
             }
         });
+        read.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(final ActionEvent e) {
+                final Path path = Paths.get(BadIOGUI.PATH);
+                try {
+                    System.out.println(Files.readAllLines(path, StandardCharsets.UTF_8));
+                } catch (IOException e1) {
+                    JOptionPane.showMessageDialog(frame, e1, "Error", JOptionPane.ERROR_MESSAGE);
+                    e1.printStackTrace();
+                }
+            }
+        });
     }
 
     private void display() {
@@ -72,11 +93,14 @@ public class BadIOGUI {
          * setups, other facilities exist (see the Java documentation about this
          * issue). It is MUCH better than manually specify the size of a window
          * in pixel: it takes into account the current resolution.
-         */
+        */
+        /*
         final Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
         final int sw = (int) screen.getWidth();
         final int sh = (int) screen.getHeight();
         frame.setSize(sw / PROPORTION, sh / PROPORTION);
+        */
+        frame.pack();
         /*
          * Instead of appearing at (0,0), upper left corner of the screen, this
          * flag makes the OS window manager take care of the default positioning
