@@ -32,12 +32,12 @@ public interface Controller {
      */
     void setCurrentString(String s);
 
-    /**
+    /**Returns the current {@link String} of the {@link Controller}.
      * @return The {@link String} that will be printed next.
      */
     String getCurrentString();
 
-    /**
+    /**Returns a {@link List} of Strings composed of all strings that were previously printed.
      * @return The {@link List} of Strings representing all strings previously printed.
      */
     List<String> getHistory();
