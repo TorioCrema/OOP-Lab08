@@ -58,6 +58,7 @@ public final class SimpleGUI {
         buttonPanel.add(print);
         buttonPanel.add(history);
         frame.setContentPane(mainPanel);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         /*
          * Make the frame half the resolution of the screen. This very method is
          * enough for a single screen setup. In case of multiple monitors, the
