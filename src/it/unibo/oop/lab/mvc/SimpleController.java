@@ -3,19 +3,26 @@ package it.unibo.oop.lab.mvc;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Simple implementation of the {@link Controller} interface.
+ *
+ */
 public class SimpleController implements Controller {
 
     private String current;
     private final List<String> history;
 
-    public SimpleController(final String s) {
-        this.current = s;
+    /**
+     * Builds a new {@link SimpleController}.
+     */
+    public SimpleController() {
+        this.current = null;
         this.history = new ArrayList<>();
     }
-    public SimpleController() {
-        this(null);
-    }
 
+    /**
+     *{@inheritDoc}
+     */
     @Override
     public void setCurrentString(final String s) {
         if (s == null) {
@@ -26,16 +33,25 @@ public class SimpleController implements Controller {
         }
     }
 
+    /**
+     *{@inheritDoc}
+     */
     @Override
     public String getCurrentString() {
         return this.current;
     }
 
+    /**
+     *{@inheritDoc}
+     */
     @Override
     public List<String> getHistory() {
         return new ArrayList<>(this.history);
     }
 
+    /**
+     *{@inheritDoc}
+     */
     @Override
     public void printCurrentString() {
         System.out.println(this.current);
