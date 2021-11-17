@@ -2,8 +2,14 @@ package it.unibo.oop.lab.mvc;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.BorderLayout;
 
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 /**
  * A very simple program using a graphical interface.
@@ -38,7 +44,20 @@ public final class SimpleGUI {
      * builds a new {@link SimpleGUI}.
      */
     public SimpleGUI() {
-
+        final JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BorderLayout());
+        final JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
+        final JTextField textField = new JTextField();
+        final JTextArea textArea = new JTextArea();
+        final JButton print = new JButton("Print");
+        final JButton history = new JButton("Show history");
+        mainPanel.add(textField, BorderLayout.NORTH);
+        mainPanel.add(textArea, BorderLayout.CENTER);
+        mainPanel.add(buttonPanel, BorderLayout.SOUTH);
+        buttonPanel.add(print);
+        buttonPanel.add(history);
+        frame.setContentPane(mainPanel);
         /*
          * Make the frame half the resolution of the screen. This very method is
          * enough for a single screen setup. In case of multiple monitors, the
@@ -60,6 +79,11 @@ public final class SimpleGUI {
          * on screen. Results may vary, but it is generally the best choice.
          */
         frame.setLocationByPlatform(true);
+        frame.setVisible(true);
+    }
+
+    public static void main(final String... args) {
+        new SimpleGUI();
     }
 
 }
