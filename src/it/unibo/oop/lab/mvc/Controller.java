@@ -26,9 +26,9 @@ public interface Controller {
      * an IllegalStateException should be thrown
      * 
      */
-    /**
+    /**Sets the {@link String} argument as the current String of the {@link Controller}.
      * @param s String to be set as current.
-     * @throws IllegalArgumentException is the {@link String} given as argument is null.
+     * @throws IllegalArgumentException if the {@link String} given as argument is null.
      */
     void setCurrentString(String s);
 
