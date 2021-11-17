@@ -2,6 +2,8 @@ package it.unibo.oop.lab.mvc;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.BorderLayout;
 
 import javax.swing.BoxLayout;
@@ -44,12 +46,14 @@ public final class SimpleGUI {
      * builds a new {@link SimpleGUI}.
      */
     public SimpleGUI() {
+        final Controller controller = new SimpleController();
         final JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
         final JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
         final JTextField textField = new JTextField();
         final JTextArea textArea = new JTextArea();
+        textArea.setEditable(false);
         final JButton print = new JButton("Print");
         final JButton history = new JButton("Show history");
         mainPanel.add(textField, BorderLayout.NORTH);
@@ -59,6 +63,23 @@ public final class SimpleGUI {
         buttonPanel.add(history);
         frame.setContentPane(mainPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        print.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(final ActionEvent e) {
+                controller.setCurrentString(textField.getText());
+                controller.printCurrentString();
+            }
+        });
+        history.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(final ActionEvent e) {
+                final StringBuffer allStrings = new StringBuffer();
+                for (final String i : controller.getHistory()) {
+                    allStrings.append(i + "\n");
+                }
+                textArea.setText(allStrings.toString());
+            }
+        });
         /*
          * Make the frame half the resolution of the screen. This very method is
          * enough for a single screen setup. In case of multiple monitors, the
