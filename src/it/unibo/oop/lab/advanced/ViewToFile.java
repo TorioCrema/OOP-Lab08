@@ -1,22 +1,24 @@
 package it.unibo.oop.lab.advanced;
 
-import java.io.DataOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintStream;
 
 public class ViewToFile implements DrawNumberView {
 
     private static final String NEW_GAME = ": a new game starts!";
-    private static final String SEPARATOR = System.getProperty("path.separator");
+
 
     private DrawNumberViewObserver observer;
-    private final DataOutputStream outStream;
+    private final PrintStream pStream;
 
     public ViewToFile() throws IOException {
-        final File file = new File(System.getProperty("user.home") + SEPARATOR + "logFile.txt");
-        file.createNewFile();
-        this.outStream = new DataOutputStream(new FileOutputStream(file));
+        final File file = new File("logFile.txt");
+        if (!file.createNewFile()) {
+            file.delete();
+            file.createNewFile();
+        }
+        this.pStream = new PrintStream(file.getCanonicalPath());
     }
 
     /**
@@ -79,11 +81,6 @@ public class ViewToFile implements DrawNumberView {
     }
 
     private void write(final String logMess) {
-        try {
-            this.outStream.writeChars(logMess);
-        } catch (IOException e) {
-            System.err.println(e.getMessage());
-            e.printStackTrace();
-        }
+        this.pStream.print(logMess);
     }
 }
