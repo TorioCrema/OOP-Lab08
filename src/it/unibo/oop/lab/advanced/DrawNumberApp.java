@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  */
@@ -17,22 +19,29 @@ public final class DrawNumberApp implements DrawNumberViewObserver {
     private int max;
     private int attempts;
     private final DrawNumber model;
-    private final DrawNumberView view;
+    private final List<DrawNumberView> views;
 
     /**
      * @throws IOException 
      * 
      */
-    public DrawNumberApp() {
-        this.view = new DrawNumberViewImpl();
-        this.view.setObserver(this);
-        this.view.start();
+    public DrawNumberApp() throws IOException {
+        this.views = new ArrayList<>();
+        this.views.add(new DrawNumberViewImpl());
+        this.views.add(new ViewToFile());
+        this.views.add(new ViewToStdout());
+        for (final DrawNumberView i : this.views) {
+            i.setObserver(this);
+            i.start();
+        }
         boolean success = false;
         try {
             this.getSettings(CONFIG);
             success = true;
         } catch (IOException e) {
-            this.view.displayError(e.getMessage() + "\nUsing default settings.");
+            for (final DrawNumberView i : this.views) {
+                i.displayError(e.getMessage() + "\nUsing default settings.");
+            }
         }
         if (!success) {
             this.model = new DrawNumberImpl(MIN, MAX, ATTEMPTS);
@@ -45,11 +54,17 @@ public final class DrawNumberApp implements DrawNumberViewObserver {
     public void newAttempt(final int n) {
         try {
             final DrawResult result = model.attempt(n);
-            this.view.result(result);
+            for (final DrawNumberView i : this.views) {
+                i.result(result);
+            }
         } catch (IllegalArgumentException e) {
-            this.view.numberIncorrect();
+            for (final DrawNumberView i : this.views) {
+                i.numberIncorrect();
+            }
         } catch (AttemptsLimitReachedException e) {
-            view.limitsReached();
+            for (final DrawNumberView i : this.views) {
+                i.limitsReached();
+            }
         }
     }
 
@@ -68,7 +83,12 @@ public final class DrawNumberApp implements DrawNumberViewObserver {
      *            ignored
      */
     public static void main(final String... args) {
-        new DrawNumberApp();
+        try {
+            new DrawNumberApp();
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     private void getSettings(final String path) throws IOException {
