@@ -71,6 +71,6 @@ public class Controller {
      * @param s String to be written in current file
      */
     public void writeString(final String s) {
-        this.printStream.print(s);
+        this.printStream.println(s);
     }
 }
