@@ -10,7 +10,7 @@ import java.awt.BorderLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.JTextArea;
 
 /**
  * A very simple program using a graphical interface.
@@ -50,15 +50,15 @@ public final class SimpleGUI {
         final JPanel canvas = new JPanel();
         canvas.setLayout(new BorderLayout());
         final JButton save = new JButton("Save");
-        final JTextField textField = new JTextField();
+        final JTextArea textArea = new JTextArea();
         canvas.add(save, BorderLayout.SOUTH);
-        canvas.add(textField, BorderLayout.CENTER);
+        canvas.add(textArea, BorderLayout.CENTER);
         frame.setContentPane(canvas);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         save.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                SimpleGUI.this.controller.writeString(textField.getText());
+                SimpleGUI.this.controller.writeString(textArea.getText());
             }
         });
         /*
