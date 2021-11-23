@@ -81,7 +81,6 @@ public final class SimpleGUI {
          * on screen. Results may vary, but it is generally the best choice.
          */
         frame.setLocationByPlatform(true);
-        frame.setVisible(true);
     }
     private void display() {
         this.frame.setVisible(true);
