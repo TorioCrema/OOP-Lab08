@@ -33,6 +33,7 @@ public class Controller {
      */
     private static final String SEPARATOR = System.getProperty("file.separator");
     private static final String HOMEDIR = System.getProperty("user.home");
+    private static final String DEFAULT = "output.txt";
     private File file;
     private String filePath;
     private PrintStream printStream;
@@ -40,7 +41,7 @@ public class Controller {
      * @throws IOException
      */
     public Controller() throws IOException {
-        this.file = new File(HOMEDIR + SEPARATOR + "output.txt");
+        this.file = new File(HOMEDIR + SEPARATOR + DEFAULT);
         this.file.createNewFile();
         this.filePath = this.file.getCanonicalPath();
         this.printStream = new PrintStream(this.filePath);
